@@ -1,0 +1,5 @@
+SELECT c.custid,custname,productname, productprice FROM customer c,product p,ord o, orddetails od  WHERE c.custid=o.custid AND o.ordid=od.ordid AND p.productid=od.productid;
+SELECT od.orddetailid, o.ordid,o.orddate,productprice*quantity AS totalprice from ord o, product p,orddetails od WHERE o.ordid=od.ordid AND p.productid=od.productid;
+SELECT c.custname from customer c WHERE c.custid NOT IN ( SELECT custid FROM ord);
+SELECT * from product p  WHERE p.productid NOT IN ( SELECT productid FROM orddetails);
+SELECT c.custname, SUM(productprice*quantity) AS purchaseamt from ord o, product p,orddetails od,customer c WHERE c.custid=o.custid AND o.ordid=od.ordid AND p.productid=od.productid GROUP BY c.custid;
