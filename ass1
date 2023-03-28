@@ -1,0 +1,25 @@
+SELECT * FROM `emp` WHERE DeptNo=10 OR DeptNo=30
+SELECT dept.DeptNo,`Dname`,`Loc` FROM `emp`, `dept` WHERE  emp.DeptNo=dept.DeptNo GROUP BY emp.DeptNo HAVING COUNT(emp.DeptNo)>1  ;
+SELECT * FROM `emp` WHERE Ename LIKE 's%';
+SELECT * ,Floor(datediff(curdate(),Hire_Date)/365) AS Experience FROM `emp` WHERE  Floor(datediff(curdate(),Hire_Date)/365)>2;
+SELECT REPLACE(Ename, 'a', '#') AS Editedname FROM `emp` ;
+SELECT a.Ename as emp, b.Ename as mngr FROM emp a,emp b WHERE  b.EmpNo=a.Mgr;
+SELECT dept.Dname , SUM(emp.Sal) as totalsalary FROM emp ,dept WHERE  dept.DeptNo=emp.DeptNo GROUP BY emp.DeptNo;
+SELECT * FROM emp LEFT JOIN dept ON emp.DeptNo=dept.DeptNo;
+UPDATE emp SET Sal= Sal+(Sal*0.1);
+Delete a from emp a , dept where a.DeptNo=b.DeptNo And Dept.Loc = ‘chennai’;
+SELECT Ename,(Sal+Commission) as gross FROM emp;
+ALTER TABLE emp Modify COLUMN Ename varchar(250);
+SELECT Now();
+CREATE TABLE Stud  (USN int, StudentName varchar(255),Email varchar(255),Department varchar(255),City varchar(255));
+SELECT COUNT(*) FROM emp WHERE Sal>1000 ;
+SELECT MIN(Sal) as minimum,MAX(Sal) as maximun,AVG(Sal) as Average FROM emp;
+SELECT Loc,COUNT(EmpNo) FROM emp a right join dept b on a.deptNo= b.deptNo GROUP BY Loc ;
+SELECT * FROM emp ORDER BY Ename DESC;
+CREATE TABLE EMP_BKP AS SELECT EmpNo,Ename,Sal FROM emp;
+SELECT CONCAT(SUBSTRING(Ename,1,3), Sal) as append FROM emp;
+SELECT * FROM emp WHERE Ename LIKE 's%';
+SELECT * FROM emp ,dept WHERE dept.DeptNo=emp.DeptNo And dept.Loc ='Bangalore';
+SELECT * FROM `emp` WHERE Ename REGEXP '^[a-k].*$';
+SELECT a.Ename as emp FROM emp a,emp b WHERE  b.EmpNo=a.Mgr AND b.Ename= 'Stefen';
+SELECT Ename from emp where EmpNo in (SELECT Mgr FROM emp GROUP BY Mgr  HAVING COUNT(*) IN (  SELECT MAX(number)    FROM (       SELECT Mgr, COUNT(*) AS number       FROM emp       GROUP BY Mgr    ) subquery));
