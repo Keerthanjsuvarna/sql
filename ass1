@@ -23,3 +23,8 @@ SELECT * FROM emp ,dept WHERE dept.DeptNo=emp.DeptNo And dept.Loc ='Bangalore';
 SELECT * FROM `emp` WHERE Ename REGEXP '^[a-k].*$';
 SELECT a.Ename as emp FROM emp a,emp b WHERE  b.EmpNo=a.Mgr AND b.Ename= 'Stefen';
 SELECT Ename from emp where EmpNo in (SELECT Mgr FROM emp GROUP BY Mgr  HAVING COUNT(*) IN (  SELECT MAX(number)    FROM (       SELECT Mgr, COUNT(*) AS number       FROM emp       GROUP BY Mgr    ) subquery));
+select * from emp right join dept on emp.DeptNo = dept.DeptNo left join mnr m on emp.Mgr = m.mEmpNo where emp.Sal in( select max(Sal) from emp where Sal not in(select max(Sal) from emp));
+create view manager as select distinct e.empNo as mEmpNo,e.Ename as mName, e.Sal as mSal, e.Hire_Date as mHireDate, e.Commission as mCommission, e.DeptNo as mgrDeptNo, e.Mgr as mMgr from emp e,emp m where e.empNo = m.mgr;
+SELECT * ,Floor(datediff(curdate(),mHireDate)/365) AS Experience FROM `mnr` ;
+SELECT * FROM mnr , dept WHERE mnr.mDeptNo=dept.DeptNo AND mCommission<1000 AND dept.Loc= 'delhi';
+SELECT * FROM emp WHERE Hire_Date<(SELECT Hire_Date FROM emp WHERE Ename='martin');
