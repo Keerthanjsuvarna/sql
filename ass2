@@ -4,3 +4,7 @@ SELECT c.custname from customer c WHERE c.custid NOT IN ( SELECT custid FROM ord
 SELECT * from product p  WHERE p.productid NOT IN ( SELECT productid FROM orddetails);
 SELECT c.custname, SUM(productprice*quantity) AS purchaseamt from ord o, product p,orddetails od,customer c WHERE c.custid=o.custid AND o.ordid=od.ordid AND p.productid=od.productid GROUP BY c.custid;
 SELECT c.* FROM customer c,ord o WHERE c.custid=o.custid AND (o.orddate  IN (SELECT MAX(orddate) FROM ord o ) OR o.orddate IN ( SELECT MIN(orddate) FROM ord o)) ;
+SELECT * FROM customer c WHERE custid IN( SELECT custid FROM ord GROUP BY custid HAVING COUNT(ordid) IN ( SELECT MAX(tot) FROM (SELECT COUNT(ordid) as tot FROM ord GROUP BY custid )subquery));
+SELECT c.* FROM ord o,customer c WHERE o.custid=c.custid GROUP BY o.custid, YEAR(orddate) HAVING COUNT(*)>1;
+SELECT MONTHNAME(orddate) AS month FROM  ord GROUP BY MONTH(orddate) HAVING COUNT(*) = (SELECT MAX(tot)  FROM ( SELECT COUNT(*) as tot FROM ord  GROUP BY MONTH(orddate) )subquery);
+SELECT p.* FROM product p, orddetails od WHERE p.productid=od.productid AND productprice =( SELECT max(productprice) FROM product);
